@@ -1,0 +1,62 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/raw/twitter_sentiment.csv
+      hash: md5
+      md5: e4e4f90c48d6accade388090f0aec20f
+      size: 3103165
+    - path: src/prepare.py
+      hash: md5
+      md5: 2884f44efaaaf1578cd18e7ba901e6a3
+      size: 739
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9db0c5bafc70b2431910747db951ca5f
+      size: 598417
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 97932b0be2376896d2ae47c36e9ca576
+      size: 2354298
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9db0c5bafc70b2431910747db951ca5f
+      size: 598417
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 97932b0be2376896d2ae47c36e9ca576
+      size: 2354298
+    - path: src/train.py
+      hash: md5
+      md5: 752129bf2dbbdfd25bf867ccb42119bb
+      size: 1189
+    outs:
+    - path: models/logreg.pkl
+      hash: md5
+      md5: 9996ee0b759bf900fdabf58599606350
+      size: 40721
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 9db0c5bafc70b2431910747db951ca5f
+      size: 598417
+    - path: models/logreg.pkl
+      hash: md5
+      md5: 9996ee0b759bf900fdabf58599606350
+      size: 40721
+    - path: src/evaluate.py
+      hash: md5
+      md5: 7919ca354edca761bd1cb8586535d01d
+      size: 953
+    outs:
+    - path: metrics.txt
+      hash: md5
+      md5: bda85dc5ba45644764e90afafc4daab1
+      size: 36
