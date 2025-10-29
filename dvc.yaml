@@ -8,4 +8,10 @@ stages:
     - data/processed/test.csv
     - data/processed/train.csv
   train:
-    cmd: \
+    cmd: python src/train.py
+    deps:
+    - data/processed/test.csv
+    - data/processed/train.csv
+    - src/train.py
+    outs:
+    - models/logreg.pkl
